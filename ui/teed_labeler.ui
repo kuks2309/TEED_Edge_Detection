@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1200</width>
+    <height>800</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>TEED Edge Labeler</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QHBoxLayout" name="horizontalLayout_main">
+
+    <!-- 왼쪽: 이미지 영역 -->
+    <item>
+     <widget class="QGroupBox" name="groupBox_image">
+      <property name="title">
+       <string>Image View</string>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>800</width>
+        <height>0</height>
+       </size>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_image">
+       <item>
+        <widget class="QLabel" name="label_image">
+         <property name="minimumSize">
+          <size>
+           <width>780</width>
+           <height>600</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string>background-color: rgb(40, 40, 40);</string>
+         </property>
+         <property name="text">
+          <string>Load Image Folder</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <!-- 이미지 네비게이션 -->
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_nav">
+         <item>
+          <widget class="QPushButton" name="btn_prev">
+           <property name="text">
+            <string>Prev (A)</string>
+           </property>
+           <property name="shortcut">
+            <string>A</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_image_info">
+           <property name="text">
+            <string>0 / 0</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btn_next">
+           <property name="text">
+            <string>Next (D)</string>
+           </property>
+           <property name="shortcut">
+            <string>D</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </item>
+
+    <!-- 오른쪽: 컨트롤 패널 -->
+    <item>
+     <widget class="QWidget" name="widget_controls">
+      <property name="maximumSize">
+       <size>
+        <width>350</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_controls">
+
+       <!-- 파일 작업 -->
+       <item>
+        <widget class="QGroupBox" name="groupBox_file">
+         <property name="title">
+          <string>File</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_file">
+          <item>
+           <widget class="QPushButton" name="btn_load_folder">
+            <property name="text">
+             <string>Load Image Folder...</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_folder_path">
+            <property name="text">
+             <string>No folder loaded</string>
+            </property>
+            <property name="wordWrap">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+
+       <!-- 그리기 도구 -->
+       <item>
+        <widget class="QGroupBox" name="groupBox_draw">
+         <property name="title">
+          <string>Drawing Tools</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_draw">
+          <item>
+           <widget class="QRadioButton" name="radio_line">
+            <property name="text">
+             <string>Line Mode (L)</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+            <property name="shortcut">
+             <string>L</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="radio_freehand">
+            <property name="text">
+             <string>Freehand Mode (F)</string>
+            </property>
+            <property name="shortcut">
+             <string>F</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_thickness">
+            <item>
+             <widget class="QLabel" name="label_thickness">
+              <property name="text">
+               <string>Line Thickness:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSpinBox" name="spinBox_thickness">
+              <property name="minimum">
+               <number>1</number>
+              </property>
+              <property name="maximum">
+               <number>10</number>
+              </property>
+              <property name="value">
+               <number>2</number>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+
+       <!-- Edge Map 미리보기 -->
+       <item>
+        <widget class="QGroupBox" name="groupBox_preview">
+         <property name="title">
+          <string>Edge Map Preview</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_preview">
+          <item>
+           <widget class="QLabel" name="label_edge_preview">
+            <property name="minimumSize">
+             <size>
+              <width>300</width>
+              <height>200</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string>background-color: rgb(0, 0, 0);</string>
+            </property>
+            <property name="text">
+             <string>Edge Map</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+
+       <!-- 액션 버튼 -->
+       <item>
+        <widget class="QGroupBox" name="groupBox_actions">
+         <property name="title">
+          <string>Actions</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_actions">
+          <item>
+           <widget class="QPushButton" name="btn_clear">
+            <property name="text">
+             <string>Clear All (C)</string>
+            </property>
+            <property name="shortcut">
+             <string>C</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btn_undo">
+            <property name="text">
+             <string>Undo (Z)</string>
+            </property>
+            <property name="shortcut">
+             <string>Ctrl+Z</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btn_save_current">
+            <property name="text">
+             <string>Save Current Edge Map</string>
+            </property>
+            <property name="styleSheet">
+             <string>background-color: rgb(0, 100, 0); color: white;</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+
+       <!-- 통계 -->
+       <item>
+        <widget class="QGroupBox" name="groupBox_stats">
+         <property name="title">
+          <string>Statistics</string>
+         </property>
+         <layout class="QFormLayout" name="formLayout_stats">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_total_text">
+            <property name="text">
+             <string>Total Images:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLabel" name="label_total_count">
+            <property name="text">
+             <string>0</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_labeled_text">
+            <property name="text">
+             <string>Labeled:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLabel" name="label_labeled_count">
+            <property name="text">
+             <string>0</string>
+            </property>
+            <property name="styleSheet">
+             <string>color: rgb(0, 255, 0); font-weight: bold;</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_lines_text">
+            <property name="text">
+             <string>Lines (current):</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QLabel" name="label_lines_count">
+            <property name="text">
+             <string>0</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+
+       <!-- 데이터셋 내보내기 -->
+       <item>
+        <widget class="QGroupBox" name="groupBox_export">
+         <property name="title">
+          <string>Export for TEED Training</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_export">
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_scale">
+            <item>
+             <widget class="QLabel" name="label_scale">
+              <property name="text">
+               <string>Scale:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QComboBox" name="comboBox_scale">
+              <item>
+               <property name="text">
+                <string>1/1 (Original)</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>1/2 (Half)</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>1/4 (Quarter)</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_output_size">
+            <property name="text">
+             <string>Output: 2448x2048 -> 612x512</string>
+            </property>
+            <property name="styleSheet">
+             <string>color: rgb(100, 200, 100);</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btn_export">
+            <property name="text">
+             <string>Export Dataset</string>
+            </property>
+            <property name="styleSheet">
+             <string>background-color: rgb(0, 80, 160); color: white; font-weight: bold;</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_export_info">
+            <property name="text">
+             <string>Creates: imgs/, edge_maps/, train_pair.lst</string>
+            </property>
+            <property name="wordWrap">
+             <bool>true</bool>
+            </property>
+            <property name="styleSheet">
+             <string>color: rgb(150, 150, 150);</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+
+       <!-- 스페이서 -->
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+
+      </layout>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+
+  <!-- 상태바 -->
+  <widget class="QStatusBar" name="statusbar"/>
+
+ </widget>
+
+ <resources/>
+ <connections/>
+</ui>
