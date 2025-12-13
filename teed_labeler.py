@@ -9,6 +9,7 @@ import json
 import cv2
 import numpy as np
 import time
+import configparser
 from datetime import datetime
 
 # PyTorch를 PyQt5보다 먼저 import (DLL 충돌 방지)
@@ -20,6 +21,9 @@ from PyQt5.QtWidgets import (
 from PyQt5.QtGui import QImage, QPixmap, QPainter, QPen, QColor
 from PyQt5.QtCore import Qt, QPoint, QThread, pyqtSignal
 from PyQt5 import uic
+
+# 설정 파일 경로
+CONFIG_FILE = 'D:/FITO_2026/Prevision/config/teed_settings.ini'
 
 # UI 파일 경로
 UI_FILE = os.path.join(os.path.dirname(__file__), 'ui', 'teed_labeler.ui')
@@ -230,6 +234,9 @@ class MainWindow(QMainWindow):
         self.test_current_idx = 0
         self.test_results = {}  # {img_path: {'edge_map': ..., 'h_lines': ..., 'v_lines': ...}}
 
+        # 설정 로드
+        self.load_settings()
+
         # 이벤트 연결
         self.setup_connections()
 
@@ -240,6 +247,59 @@ class MainWindow(QMainWindow):
 
         # 상태바 초기화
         self.statusbar.showMessage("TEED Edge Labeler & Trainer Ready")
+
+    def load_settings(self):
+        """설정 파일 로드"""
+        config = configparser.ConfigParser()
+        if os.path.exists(CONFIG_FILE):
+            config.read(CONFIG_FILE)
+
+            # Paths
+            self.image_folder = config.get('Paths', 'ImageFolder', fallback='')
+            self.test_model_path = config.get('Paths', 'ModelPath', fallback='weights/Prevision_MLCC/deploy/best_model.pth')
+            self.dataset_path = config.get('Paths', 'TrainingDataDir', fallback='')
+
+            # Training (UI에 설정)
+            self.spinBox_epochs.setValue(config.getint('Training', 'Epochs', fallback=200))
+            self.spinBox_batch_size.setValue(config.getint('Training', 'BatchSize', fallback=8))
+            self.doubleSpinBox_lr.setValue(config.getfloat('Training', 'LearningRate', fallback=0.0001))
+            self.spinBox_patience.setValue(config.getint('Training', 'Patience', fallback=20))
+
+            # Test (UI에 설정)
+            self.spinBox_threshold.setValue(config.getint('Test', 'BinaryThreshold', fallback=50))
+            self.spinBox_min_length.setValue(config.getint('Test', 'MinLineLength', fallback=30))
+            self.spinBox_max_gap.setValue(config.getint('Test', 'MaxLineGap', fallback=10))
+            self.spinBox_angle_tolerance.setValue(config.getint('Test', 'AngleTolerance', fallback=30))
+
+    def save_settings(self):
+        """설정 파일 저장"""
+        config = configparser.ConfigParser()
+
+        # Paths
+        config['Paths'] = {
+            'ImageFolder': self.image_folder,
+            'ModelPath': self.test_model_path,
+            'TrainingDataDir': self.dataset_path
+        }
+
+        # Training
+        config['Training'] = {
+            'Epochs': str(self.spinBox_epochs.value()),
+            'BatchSize': str(self.spinBox_batch_size.value()),
+            'LearningRate': str(self.doubleSpinBox_lr.value()),
+            'Patience': str(self.spinBox_patience.value())
+        }
+
+        # Test
+        config['Test'] = {
+            'BinaryThreshold': str(self.spinBox_threshold.value()),
+            'MinLineLength': str(self.spinBox_min_length.value()),
+            'MaxLineGap': str(self.spinBox_max_gap.value()),
+            'AngleTolerance': str(self.spinBox_angle_tolerance.value())
+        }
+
+        with open(CONFIG_FILE, 'w') as f:
+            config.write(f)
 
     def setup_connections(self):
         """버튼/메뉴 이벤트 연결"""
@@ -283,8 +343,9 @@ class MainWindow(QMainWindow):
 
     def load_folder(self):
         """이미지 폴더 로드"""
+        default_dir = self.image_folder if self.image_folder else "D:/Image"
         folder = QFileDialog.getExistingDirectory(
-            self, "Select Image Folder", "D:/Image"
+            self, "Select Image Folder", default_dir
         )
         if not folder:
             return
@@ -304,6 +365,7 @@ class MainWindow(QMainWindow):
             self.label_folder_path.setText(os.path.basename(folder))
             self.label_total_count.setText(str(len(self.image_files)))
             self.statusbar.showMessage(f"Loaded {len(self.image_files)} images")
+            self.save_settings()
         else:
             QMessageBox.warning(self, "Warning", "No image files found.")
 
@@ -626,8 +688,9 @@ class MainWindow(QMainWindow):
 
     def select_dataset(self):
         """데이터셋 폴더 선택"""
+        default_dir = self.dataset_path if self.dataset_path else "D:/FITO_2026/TEED/training_data"
         folder = QFileDialog.getExistingDirectory(
-            self, "Select Dataset Folder", "D:/FITO_2026/TEED/data"
+            self, "Select Dataset Folder", default_dir
         )
         if folder:
             self.dataset_path = folder
@@ -641,6 +704,8 @@ class MainWindow(QMainWindow):
                 self.label_train_samples.setText(str(len(pairs)))
             else:
                 self.label_train_samples.setText("train_pair.lst not found")
+
+            self.save_settings()
 
     def select_pretrained(self):
         """Pretrained 모델 선택"""
@@ -757,13 +822,15 @@ class MainWindow(QMainWindow):
 
     def select_test_model(self):
         """테스트 모델 선택"""
+        default_dir = os.path.dirname(self.test_model_path) if self.test_model_path else "weights/"
         file_path, _ = QFileDialog.getOpenFileName(
             self, "Select Model",
-            "weights/", "Model Files (*.pth)"
+            default_dir, "Model Files (*.pth)"
         )
         if file_path:
             self.test_model_path = file_path
             self.label_test_model_path.setText(file_path)
+            self.save_settings()
 
     def load_test_model(self):
         """테스트 모델 로드"""
