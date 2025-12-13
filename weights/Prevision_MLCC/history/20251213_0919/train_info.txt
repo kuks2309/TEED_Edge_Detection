@@ -1,0 +1,8 @@
+Training Time: 20251213_0919
+Total Epochs: 34
+Best Loss: 0.0470
+Train Samples: 17
+Batch Size: 2
+Learning Rate: 0.0005
+Early Stopping Patience: 20
+Device: cpu

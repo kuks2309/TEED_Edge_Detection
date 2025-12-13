@@ -11,396 +11,1283 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>TEED Edge Labeler</string>
+   <string>TEED Edge Labeler &amp; Trainer</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QHBoxLayout" name="horizontalLayout_main">
+   <layout class="QVBoxLayout" name="verticalLayout_main">
 
-    <!-- 왼쪽: 이미지 영역 -->
+    <!-- 탭 위젯 -->
     <item>
-     <widget class="QGroupBox" name="groupBox_image">
-      <property name="title">
-       <string>Image View</string>
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="currentIndex">
+       <number>0</number>
       </property>
-      <property name="minimumSize">
-       <size>
-        <width>800</width>
-        <height>0</height>
-       </size>
-      </property>
-      <layout class="QVBoxLayout" name="verticalLayout_image">
-       <item>
-        <widget class="QLabel" name="label_image">
-         <property name="minimumSize">
-          <size>
-           <width>780</width>
-           <height>600</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string>background-color: rgb(40, 40, 40);</string>
-         </property>
-         <property name="text">
-          <string>Load Image Folder</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-       </item>
-       <!-- 이미지 네비게이션 -->
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_nav">
-         <item>
-          <widget class="QPushButton" name="btn_prev">
-           <property name="text">
-            <string>Prev (A)</string>
-           </property>
-           <property name="shortcut">
-            <string>A</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="label_image_info">
-           <property name="text">
-            <string>0 / 0</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="btn_next">
-           <property name="text">
-            <string>Next (D)</string>
-           </property>
-           <property name="shortcut">
-            <string>D</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-      </layout>
-     </widget>
-    </item>
 
-    <!-- 오른쪽: 컨트롤 패널 -->
-    <item>
-     <widget class="QWidget" name="widget_controls">
-      <property name="maximumSize">
-       <size>
-        <width>350</width>
-        <height>16777215</height>
-       </size>
-      </property>
-      <layout class="QVBoxLayout" name="verticalLayout_controls">
+      <!-- ========== 탭 1: Labeling ========== -->
+      <widget class="QWidget" name="tab_labeling">
+       <attribute name="title">
+        <string>Labeling</string>
+       </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout_labeling">
 
-       <!-- 파일 작업 -->
-       <item>
-        <widget class="QGroupBox" name="groupBox_file">
-         <property name="title">
-          <string>File</string>
-         </property>
-         <layout class="QVBoxLayout" name="verticalLayout_file">
-          <item>
-           <widget class="QPushButton" name="btn_load_folder">
-            <property name="text">
-             <string>Load Image Folder...</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_folder_path">
-            <property name="text">
-             <string>No folder loaded</string>
-            </property>
-            <property name="wordWrap">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-
-       <!-- 그리기 도구 -->
-       <item>
-        <widget class="QGroupBox" name="groupBox_draw">
-         <property name="title">
-          <string>Drawing Tools</string>
-         </property>
-         <layout class="QVBoxLayout" name="verticalLayout_draw">
-          <item>
-           <widget class="QRadioButton" name="radio_line">
-            <property name="text">
-             <string>Line Mode (L)</string>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
-            </property>
-            <property name="shortcut">
-             <string>L</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="radio_freehand">
-            <property name="text">
-             <string>Freehand Mode (F)</string>
-            </property>
-            <property name="shortcut">
-             <string>F</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_thickness">
-            <item>
-             <widget class="QLabel" name="label_thickness">
-              <property name="text">
-               <string>Line Thickness:</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QSpinBox" name="spinBox_thickness">
-              <property name="minimum">
-               <number>1</number>
-              </property>
-              <property name="maximum">
-               <number>10</number>
-              </property>
-              <property name="value">
-               <number>2</number>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-         </layout>
-        </widget>
-       </item>
-
-       <!-- Edge Map 미리보기 -->
-       <item>
-        <widget class="QGroupBox" name="groupBox_preview">
-         <property name="title">
-          <string>Edge Map Preview</string>
-         </property>
-         <layout class="QVBoxLayout" name="verticalLayout_preview">
-          <item>
-           <widget class="QLabel" name="label_edge_preview">
-            <property name="minimumSize">
-             <size>
-              <width>300</width>
-              <height>200</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string>background-color: rgb(0, 0, 0);</string>
-            </property>
-            <property name="text">
-             <string>Edge Map</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-
-       <!-- 액션 버튼 -->
-       <item>
-        <widget class="QGroupBox" name="groupBox_actions">
-         <property name="title">
-          <string>Actions</string>
-         </property>
-         <layout class="QVBoxLayout" name="verticalLayout_actions">
-          <item>
-           <widget class="QPushButton" name="btn_clear">
-            <property name="text">
-             <string>Clear All (C)</string>
-            </property>
-            <property name="shortcut">
-             <string>C</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="btn_undo">
-            <property name="text">
-             <string>Undo (Z)</string>
-            </property>
-            <property name="shortcut">
-             <string>Ctrl+Z</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="btn_save_current">
-            <property name="text">
-             <string>Save Current Edge Map</string>
-            </property>
-            <property name="styleSheet">
-             <string>background-color: rgb(0, 100, 0); color: white;</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-
-       <!-- 통계 -->
-       <item>
-        <widget class="QGroupBox" name="groupBox_stats">
-         <property name="title">
-          <string>Statistics</string>
-         </property>
-         <layout class="QFormLayout" name="formLayout_stats">
-          <item row="0" column="0">
-           <widget class="QLabel" name="label_total_text">
-            <property name="text">
-             <string>Total Images:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1">
-           <widget class="QLabel" name="label_total_count">
-            <property name="text">
-             <string>0</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="label_labeled_text">
-            <property name="text">
-             <string>Labeled:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QLabel" name="label_labeled_count">
-            <property name="text">
-             <string>0</string>
-            </property>
-            <property name="styleSheet">
-             <string>color: rgb(0, 255, 0); font-weight: bold;</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="label_lines_text">
-            <property name="text">
-             <string>Lines (current):</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1">
-           <widget class="QLabel" name="label_lines_count">
-            <property name="text">
-             <string>0</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-
-       <!-- 데이터셋 내보내기 -->
-       <item>
-        <widget class="QGroupBox" name="groupBox_export">
-         <property name="title">
-          <string>Export for TEED Training</string>
-         </property>
-         <layout class="QVBoxLayout" name="verticalLayout_export">
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_scale">
-            <item>
-             <widget class="QLabel" name="label_scale">
-              <property name="text">
-               <string>Scale:</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QComboBox" name="comboBox_scale">
-              <item>
+        <!-- 왼쪽: 이미지 영역 -->
+        <item>
+         <widget class="QGroupBox" name="groupBox_image">
+          <property name="title">
+           <string>Image View</string>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>800</width>
+            <height>0</height>
+           </size>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_image">
+           <item>
+            <widget class="QLabel" name="label_image">
+             <property name="minimumSize">
+              <size>
+               <width>780</width>
+               <height>600</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string>background-color: rgb(40, 40, 40);</string>
+             </property>
+             <property name="text">
+              <string>Load Image Folder</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <!-- 이미지 네비게이션 -->
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_nav">
+             <item>
+              <widget class="QPushButton" name="btn_prev">
                <property name="text">
-                <string>1/1 (Original)</string>
+                <string>Prev (A)</string>
                </property>
+               <property name="shortcut">
+                <string>A</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_image_info">
+               <property name="text">
+                <string>0 / 0</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btn_next">
+               <property name="text">
+                <string>Next (D)</string>
+               </property>
+               <property name="shortcut">
+                <string>D</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+        </item>
+
+        <!-- 오른쪽: 컨트롤 패널 -->
+        <item>
+         <widget class="QWidget" name="widget_controls">
+          <property name="maximumSize">
+           <size>
+            <width>350</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_controls">
+
+           <!-- 파일 작업 -->
+           <item>
+            <widget class="QGroupBox" name="groupBox_file">
+             <property name="title">
+              <string>File</string>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_file">
+              <item>
+               <widget class="QPushButton" name="btn_load_folder">
+                <property name="text">
+                 <string>Load Image Folder...</string>
+                </property>
+               </widget>
               </item>
               <item>
-               <property name="text">
-                <string>1/2 (Half)</string>
-               </property>
+               <widget class="QLabel" name="label_folder_path">
+                <property name="text">
+                 <string>No folder loaded</string>
+                </property>
+                <property name="wordWrap">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+
+           <!-- 그리기 도구 -->
+           <item>
+            <widget class="QGroupBox" name="groupBox_draw">
+             <property name="title">
+              <string>Drawing Tools</string>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_draw">
+              <item>
+               <widget class="QRadioButton" name="radio_line">
+                <property name="text">
+                 <string>Line Mode (L)</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
+                <property name="shortcut">
+                 <string>L</string>
+                </property>
+               </widget>
               </item>
               <item>
-               <property name="text">
-                <string>1/4 (Quarter)</string>
-               </property>
+               <widget class="QRadioButton" name="radio_freehand">
+                <property name="text">
+                 <string>Freehand Mode (F)</string>
+                </property>
+                <property name="shortcut">
+                 <string>F</string>
+                </property>
+               </widget>
               </item>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_output_size">
-            <property name="text">
-             <string>Output: 2448x2048 -> 612x512</string>
-            </property>
-            <property name="styleSheet">
-             <string>color: rgb(100, 200, 100);</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="btn_export">
-            <property name="text">
-             <string>Export Dataset</string>
-            </property>
-            <property name="styleSheet">
-             <string>background-color: rgb(0, 80, 160); color: white; font-weight: bold;</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_export_info">
-            <property name="text">
-             <string>Creates: imgs/, edge_maps/, train_pair.lst</string>
-            </property>
-            <property name="wordWrap">
-             <bool>true</bool>
-            </property>
-            <property name="styleSheet">
-             <string>color: rgb(150, 150, 150);</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_thickness">
+                <item>
+                 <widget class="QLabel" name="label_thickness">
+                  <property name="text">
+                   <string>Line Thickness:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QSpinBox" name="spinBox_thickness">
+                  <property name="minimum">
+                   <number>1</number>
+                  </property>
+                  <property name="maximum">
+                   <number>10</number>
+                  </property>
+                  <property name="value">
+                   <number>2</number>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </widget>
+           </item>
 
-       <!-- 스페이서 -->
-       <item>
-        <spacer name="verticalSpacer">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
+           <!-- Edge Map 미리보기 -->
+           <item>
+            <widget class="QGroupBox" name="groupBox_preview">
+             <property name="title">
+              <string>Edge Map Preview</string>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_preview">
+              <item>
+               <widget class="QLabel" name="label_edge_preview">
+                <property name="minimumSize">
+                 <size>
+                  <width>300</width>
+                  <height>200</height>
+                 </size>
+                </property>
+                <property name="styleSheet">
+                 <string>background-color: rgb(0, 0, 0);</string>
+                </property>
+                <property name="text">
+                 <string>Edge Map</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
 
-      </layout>
+           <!-- 액션 버튼 -->
+           <item>
+            <widget class="QGroupBox" name="groupBox_actions">
+             <property name="title">
+              <string>Actions</string>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_actions">
+              <item>
+               <widget class="QPushButton" name="btn_clear">
+                <property name="text">
+                 <string>Clear All (C)</string>
+                </property>
+                <property name="shortcut">
+                 <string>C</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="btn_undo">
+                <property name="text">
+                 <string>Undo (Z)</string>
+                </property>
+                <property name="shortcut">
+                 <string>Ctrl+Z</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="btn_save_current">
+                <property name="text">
+                 <string>Save Current Edge Map</string>
+                </property>
+                <property name="styleSheet">
+                 <string>background-color: rgb(0, 100, 0); color: white;</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+
+           <!-- 통계 -->
+           <item>
+            <widget class="QGroupBox" name="groupBox_stats">
+             <property name="title">
+              <string>Statistics</string>
+             </property>
+             <layout class="QFormLayout" name="formLayout_stats">
+              <item row="0" column="0">
+               <widget class="QLabel" name="label_total_text">
+                <property name="text">
+                 <string>Total Images:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="QLabel" name="label_total_count">
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_labeled_text">
+                <property name="text">
+                 <string>Labeled:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QLabel" name="label_labeled_count">
+                <property name="text">
+                 <string>0</string>
+                </property>
+                <property name="styleSheet">
+                 <string>color: rgb(0, 255, 0); font-weight: bold;</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="QLabel" name="label_lines_text">
+                <property name="text">
+                 <string>Lines (current):</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <widget class="QLabel" name="label_lines_count">
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+
+           <!-- 데이터셋 내보내기 -->
+           <item>
+            <widget class="QGroupBox" name="groupBox_export">
+             <property name="title">
+              <string>Export for TEED Training</string>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_export">
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_scale">
+                <item>
+                 <widget class="QLabel" name="label_scale">
+                  <property name="text">
+                   <string>Scale:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QComboBox" name="comboBox_scale">
+                  <item>
+                   <property name="text">
+                    <string>1/1 (Original)</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>1/2 (Half)</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>1/4 (Quarter)</string>
+                   </property>
+                  </item>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_output_size">
+                <property name="text">
+                 <string>Output: 2448x2048 -> 612x512</string>
+                </property>
+                <property name="styleSheet">
+                 <string>color: rgb(100, 200, 100);</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="btn_export">
+                <property name="text">
+                 <string>Export Dataset</string>
+                </property>
+                <property name="styleSheet">
+                 <string>background-color: rgb(0, 80, 160); color: white; font-weight: bold;</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_export_info">
+                <property name="text">
+                 <string>Creates: imgs/, edge_maps/, train_pair.lst</string>
+                </property>
+                <property name="wordWrap">
+                 <bool>true</bool>
+                </property>
+                <property name="styleSheet">
+                 <string>color: rgb(150, 150, 150);</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+
+           <!-- 스페이서 -->
+           <item>
+            <spacer name="verticalSpacer_labeling">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+
+      <!-- ========== 탭 2: Training ========== -->
+      <widget class="QWidget" name="tab_training">
+       <attribute name="title">
+        <string>Training</string>
+       </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout_training">
+
+        <!-- 왼쪽: 학습 로그 -->
+        <item>
+         <widget class="QGroupBox" name="groupBox_log">
+          <property name="title">
+           <string>Training Log</string>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>700</width>
+            <height>0</height>
+           </size>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_log">
+           <item>
+            <widget class="QTextEdit" name="textEdit_log">
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+             <property name="styleSheet">
+              <string>background-color: rgb(30, 30, 30); color: rgb(200, 200, 200); font-family: Consolas, monospace; font-size: 10pt;</string>
+             </property>
+            </widget>
+           </item>
+           <!-- 진행 상황 -->
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_progress">
+             <item>
+              <widget class="QLabel" name="label_progress_text">
+               <property name="text">
+                <string>Progress:</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QProgressBar" name="progressBar_training">
+               <property name="value">
+                <number>0</number>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+        </item>
+
+        <!-- 오른쪽: 학습 설정 -->
+        <item>
+         <widget class="QWidget" name="widget_training_controls">
+          <property name="maximumSize">
+           <size>
+            <width>400</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_training_controls">
+
+           <!-- 데이터셋 선택 -->
+           <item>
+            <widget class="QGroupBox" name="groupBox_dataset">
+             <property name="title">
+              <string>Dataset</string>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_dataset">
+              <item>
+               <widget class="QPushButton" name="btn_select_dataset">
+                <property name="text">
+                 <string>Select Dataset Folder...</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_dataset_path">
+                <property name="text">
+                 <string>No dataset selected</string>
+                </property>
+                <property name="wordWrap">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <layout class="QFormLayout" name="formLayout_dataset">
+                <item row="0" column="0">
+                 <widget class="QLabel" name="label_train_samples_text">
+                  <property name="text">
+                   <string>Train Samples:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QLabel" name="label_train_samples">
+                  <property name="text">
+                   <string>0</string>
+                  </property>
+                  <property name="styleSheet">
+                   <string>font-weight: bold;</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </widget>
+           </item>
+
+           <!-- 하이퍼파라미터 -->
+           <item>
+            <widget class="QGroupBox" name="groupBox_hyperparams">
+             <property name="title">
+              <string>Hyperparameters</string>
+             </property>
+             <layout class="QFormLayout" name="formLayout_hyperparams">
+              <item row="0" column="0">
+               <widget class="QLabel" name="label_epochs">
+                <property name="text">
+                 <string>Max Epochs:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="QSpinBox" name="spinBox_epochs">
+                <property name="minimum">
+                 <number>1</number>
+                </property>
+                <property name="maximum">
+                 <number>1000</number>
+                </property>
+                <property name="value">
+                 <number>200</number>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_batch_size">
+                <property name="text">
+                 <string>Batch Size:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QSpinBox" name="spinBox_batch_size">
+                <property name="minimum">
+                 <number>1</number>
+                </property>
+                <property name="maximum">
+                 <number>32</number>
+                </property>
+                <property name="value">
+                 <number>2</number>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="QLabel" name="label_lr">
+                <property name="text">
+                 <string>Learning Rate:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <widget class="QDoubleSpinBox" name="doubleSpinBox_lr">
+                <property name="decimals">
+                 <number>6</number>
+                </property>
+                <property name="minimum">
+                 <double>0.000001</double>
+                </property>
+                <property name="maximum">
+                 <double>0.1</double>
+                </property>
+                <property name="singleStep">
+                 <double>0.0001</double>
+                </property>
+                <property name="value">
+                 <double>0.0005</double>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QLabel" name="label_patience">
+                <property name="text">
+                 <string>Early Stop Patience:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="1">
+               <widget class="QSpinBox" name="spinBox_patience">
+                <property name="minimum">
+                 <number>1</number>
+                </property>
+                <property name="maximum">
+                 <number>100</number>
+                </property>
+                <property name="value">
+                 <number>20</number>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+
+           <!-- Pretrained Model -->
+           <item>
+            <widget class="QGroupBox" name="groupBox_pretrained">
+             <property name="title">
+              <string>Pretrained Model</string>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_pretrained">
+              <item>
+               <widget class="QCheckBox" name="checkBox_use_pretrained">
+                <property name="text">
+                 <string>Use Pretrained (Transfer Learning)</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="btn_select_pretrained">
+                <property name="text">
+                 <string>Select Pretrained Model...</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_pretrained_path">
+                <property name="text">
+                 <string>BIPED/5/5_model.pth (default)</string>
+                </property>
+                <property name="wordWrap">
+                 <bool>true</bool>
+                </property>
+                <property name="styleSheet">
+                 <string>color: rgb(150, 150, 150);</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+
+           <!-- 출력 설정 -->
+           <item>
+            <widget class="QGroupBox" name="groupBox_output">
+             <property name="title">
+              <string>Output</string>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_output">
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_output_name">
+                <item>
+                 <widget class="QLabel" name="label_output_name">
+                  <property name="text">
+                   <string>Model Name:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLineEdit" name="lineEdit_output_name">
+                  <property name="text">
+                   <string>Prevision_MLCC</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_output_dir">
+                <property name="text">
+                 <string>Output: weights/{name}/history/</string>
+                </property>
+                <property name="styleSheet">
+                 <string>color: rgb(100, 200, 100);</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+
+           <!-- 학습 상태 -->
+           <item>
+            <widget class="QGroupBox" name="groupBox_status">
+             <property name="title">
+              <string>Training Status</string>
+             </property>
+             <layout class="QFormLayout" name="formLayout_status">
+              <item row="0" column="0">
+               <widget class="QLabel" name="label_current_epoch_text">
+                <property name="text">
+                 <string>Current Epoch:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="QLabel" name="label_current_epoch">
+                <property name="text">
+                 <string>0 / 0</string>
+                </property>
+                <property name="styleSheet">
+                 <string>font-weight: bold;</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_current_loss_text">
+                <property name="text">
+                 <string>Current Loss:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QLabel" name="label_current_loss">
+                <property name="text">
+                 <string>-</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="QLabel" name="label_best_loss_text">
+                <property name="text">
+                 <string>Best Loss:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <widget class="QLabel" name="label_best_loss">
+                <property name="text">
+                 <string>-</string>
+                </property>
+                <property name="styleSheet">
+                 <string>color: rgb(0, 255, 0); font-weight: bold;</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QLabel" name="label_patience_text">
+                <property name="text">
+                 <string>Patience:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="1">
+               <widget class="QLabel" name="label_patience_count">
+                <property name="text">
+                 <string>0 / 20</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+
+           <!-- 학습 버튼 -->
+           <item>
+            <widget class="QPushButton" name="btn_start_training">
+             <property name="text">
+              <string>Start Training</string>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>40</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string>background-color: rgb(0, 120, 0); color: white; font-weight: bold; font-size: 12pt;</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="btn_stop_training">
+             <property name="text">
+              <string>Stop Training</string>
+             </property>
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="styleSheet">
+              <string>background-color: rgb(180, 0, 0); color: white; font-weight: bold;</string>
+             </property>
+            </widget>
+           </item>
+
+           <!-- Deploy 버튼 -->
+           <item>
+            <widget class="QGroupBox" name="groupBox_deploy">
+             <property name="title">
+              <string>Deploy</string>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_deploy">
+              <item>
+               <widget class="QPushButton" name="btn_deploy_model">
+                <property name="text">
+                 <string>Copy Best Model to Deploy</string>
+                </property>
+                <property name="styleSheet">
+                 <string>background-color: rgb(0, 80, 160); color: white;</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_deploy_info">
+                <property name="text">
+                 <string>Copies best_model.pth to deploy folder</string>
+                </property>
+                <property name="styleSheet">
+                 <string>color: rgb(150, 150, 150);</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+
+           <!-- 스페이서 -->
+           <item>
+            <spacer name="verticalSpacer_training">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+
+      <!-- ========== 탭 3: Test ========== -->
+      <widget class="QWidget" name="tab_test">
+       <attribute name="title">
+        <string>Test</string>
+       </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout_test">
+
+        <!-- 왼쪽: 결과 이미지 -->
+        <item>
+         <widget class="QGroupBox" name="groupBox_test_result">
+          <property name="title">
+           <string>Test Result</string>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>700</width>
+            <height>0</height>
+           </size>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_test_result">
+           <item>
+            <widget class="QLabel" name="label_test_image">
+             <property name="minimumSize">
+              <size>
+               <width>680</width>
+               <height>500</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string>background-color: rgb(40, 40, 40);</string>
+             </property>
+             <property name="text">
+              <string>Load test image or folder</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <!-- 이미지 네비게이션 -->
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_test_nav">
+             <item>
+              <widget class="QPushButton" name="btn_test_prev">
+               <property name="text">
+                <string>Prev</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_test_image_info">
+               <property name="text">
+                <string>0 / 0</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btn_test_next">
+               <property name="text">
+                <string>Next</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <!-- 뷰 모드 -->
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_view_mode">
+             <item>
+              <widget class="QRadioButton" name="radio_view_original">
+               <property name="text">
+                <string>Original</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QRadioButton" name="radio_view_edge">
+               <property name="text">
+                <string>Edge Map</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QRadioButton" name="radio_view_lines">
+               <property name="text">
+                <string>Detected Lines</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QRadioButton" name="radio_view_overlay">
+               <property name="text">
+                <string>Overlay</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+        </item>
+
+        <!-- 오른쪽: 테스트 설정 -->
+        <item>
+         <widget class="QWidget" name="widget_test_controls">
+          <property name="maximumSize">
+           <size>
+            <width>400</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_test_controls">
+
+           <!-- 모델 선택 -->
+           <item>
+            <widget class="QGroupBox" name="groupBox_test_model">
+             <property name="title">
+              <string>Model</string>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_test_model">
+              <item>
+               <widget class="QPushButton" name="btn_select_test_model">
+                <property name="text">
+                 <string>Select Model (.pth)...</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_test_model_path">
+                <property name="text">
+                 <string>weights/Prevision_MLCC/deploy/best_model.pth</string>
+                </property>
+                <property name="wordWrap">
+                 <bool>true</bool>
+                </property>
+                <property name="styleSheet">
+                 <string>color: rgb(100, 200, 100);</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="btn_load_model">
+                <property name="text">
+                 <string>Load Model</string>
+                </property>
+                <property name="styleSheet">
+                 <string>background-color: rgb(0, 100, 0); color: white;</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_model_status">
+                <property name="text">
+                 <string>Model not loaded</string>
+                </property>
+                <property name="styleSheet">
+                 <string>color: rgb(255, 100, 100);</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+
+           <!-- 테스트 이미지 -->
+           <item>
+            <widget class="QGroupBox" name="groupBox_test_input">
+             <property name="title">
+              <string>Test Input</string>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_test_input">
+              <item>
+               <widget class="QPushButton" name="btn_load_test_image">
+                <property name="text">
+                 <string>Load Single Image...</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="btn_load_test_folder">
+                <property name="text">
+                 <string>Load Image Folder...</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_test_input_path">
+                <property name="text">
+                 <string>No input selected</string>
+                </property>
+                <property name="wordWrap">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+
+           <!-- 직선 검출 파라미터 -->
+           <item>
+            <widget class="QGroupBox" name="groupBox_line_params">
+             <property name="title">
+              <string>Line Detection Parameters</string>
+             </property>
+             <layout class="QFormLayout" name="formLayout_line_params">
+              <item row="0" column="0">
+               <widget class="QLabel" name="label_threshold">
+                <property name="text">
+                 <string>Binary Threshold:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="QSpinBox" name="spinBox_threshold">
+                <property name="minimum">
+                 <number>1</number>
+                </property>
+                <property name="maximum">
+                 <number>255</number>
+                </property>
+                <property name="value">
+                 <number>50</number>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_min_length">
+                <property name="text">
+                 <string>Min Line Length:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QSpinBox" name="spinBox_min_length">
+                <property name="minimum">
+                 <number>1</number>
+                </property>
+                <property name="maximum">
+                 <number>500</number>
+                </property>
+                <property name="value">
+                 <number>30</number>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="QLabel" name="label_max_gap">
+                <property name="text">
+                 <string>Max Line Gap:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <widget class="QSpinBox" name="spinBox_max_gap">
+                <property name="minimum">
+                 <number>1</number>
+                </property>
+                <property name="maximum">
+                 <number>100</number>
+                </property>
+                <property name="value">
+                 <number>10</number>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QLabel" name="label_angle_tolerance">
+                <property name="text">
+                 <string>Angle Tolerance:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="1">
+               <widget class="QSpinBox" name="spinBox_angle_tolerance">
+                <property name="minimum">
+                 <number>1</number>
+                </property>
+                <property name="maximum">
+                 <number>45</number>
+                </property>
+                <property name="value">
+                 <number>30</number>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+
+           <!-- 테스트 실행 -->
+           <item>
+            <widget class="QPushButton" name="btn_run_test">
+             <property name="text">
+              <string>Run Test</string>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>40</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string>background-color: rgb(0, 80, 160); color: white; font-weight: bold; font-size: 12pt;</string>
+             </property>
+            </widget>
+           </item>
+
+           <!-- 검출 결과 -->
+           <item>
+            <widget class="QGroupBox" name="groupBox_detection_result">
+             <property name="title">
+              <string>Detection Result</string>
+             </property>
+             <layout class="QFormLayout" name="formLayout_detection">
+              <item row="0" column="0">
+               <widget class="QLabel" name="label_h_lines_text">
+                <property name="text">
+                 <string>Horizontal Lines:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="QLabel" name="label_h_lines_count">
+                <property name="text">
+                 <string>0 clusters (0 lines)</string>
+                </property>
+                <property name="styleSheet">
+                 <string>color: rgb(0, 255, 0);</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_v_lines_text">
+                <property name="text">
+                 <string>Vertical Lines:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QLabel" name="label_v_lines_count">
+                <property name="text">
+                 <string>0 clusters (0 lines)</string>
+                </property>
+                <property name="styleSheet">
+                 <string>color: rgb(100, 100, 255);</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="QLabel" name="label_inference_time_text">
+                <property name="text">
+                 <string>Inference Time:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <widget class="QLabel" name="label_inference_time">
+                <property name="text">
+                 <string>- ms</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+
+           <!-- 결과 저장 -->
+           <item>
+            <widget class="QGroupBox" name="groupBox_save_result">
+             <property name="title">
+              <string>Save Results</string>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_save">
+              <item>
+               <widget class="QPushButton" name="btn_save_current_result">
+                <property name="text">
+                 <string>Save Current Result</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="btn_batch_save">
+                <property name="text">
+                 <string>Batch Save All Results</string>
+                </property>
+                <property name="styleSheet">
+                 <string>background-color: rgb(100, 60, 0); color: white;</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+
+           <!-- 스페이서 -->
+           <item>
+            <spacer name="verticalSpacer_test">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+
      </widget>
     </item>
    </layout>
