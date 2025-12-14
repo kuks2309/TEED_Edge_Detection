@@ -1235,6 +1235,22 @@
                 </property>
                </widget>
               </item>
+              <item row="3" column="0" colspan="2">
+               <widget class="QPushButton" name="btn_show_final_lines">
+                <property name="text">
+                 <string>Show Final Lines</string>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>35</height>
+                 </size>
+                </property>
+                <property name="styleSheet">
+                 <string>background-color: rgb(0, 100, 0); color: white; font-weight: bold;</string>
+                </property>
+               </widget>
+              </item>
              </layout>
             </widget>
            </item>

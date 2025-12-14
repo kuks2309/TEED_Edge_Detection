@@ -332,6 +332,7 @@ class MainWindow(QMainWindow):
         self.btn_test_next.clicked.connect(self.test_next_image)
         self.btn_save_current_result.clicked.connect(self.save_current_result)
         self.btn_batch_save.clicked.connect(self.batch_save_results)
+        self.btn_show_final_lines.clicked.connect(self.show_final_lines)
 
         # View mode radio buttons
         self.radio_view_original.toggled.connect(self.update_test_display)
@@ -1183,6 +1184,57 @@ class MainWindow(QMainWindow):
         cv2.imwrite(os.path.join(output_folder, f"{base_name}_lines.png"), lines_img)
 
         self.statusbar.showMessage(f"Saved: {base_name}")
+
+    def show_final_lines(self):
+        """최종 가로/세로 라인을 원본 이미지에 표시"""
+        if not self.test_images:
+            QMessageBox.warning(self, "Warning", "Load test images first.")
+            return
+
+        # 먼저 테스트 실행
+        self.run_test()
+
+        img_path = self.test_images[self.test_current_idx]
+        if img_path not in self.test_results:
+            return
+
+        result = self.test_results[img_path]
+
+        # 원본 이미지 복사
+        lines_img = result['original'].copy()
+        h, w = lines_img.shape[:2]
+
+        # 가로 라인 (빨간색) - 1개만
+        if result['h_clusters']:
+            cluster = result['h_clusters'][0]
+            a, b = cluster['coef1'], cluster['coef2']
+            y_s = int(a * 0 + b)
+            y_e = int(a * (w-1) + b)
+            cv2.line(lines_img, (0, y_s), (w-1, y_e), (0, 0, 255), 2)
+
+        # 세로 라인 (파란색) - 1개만
+        if result['v_clusters']:
+            cluster = result['v_clusters'][0]
+            c, d = cluster['coef1'], cluster['coef2']
+            x_s = int(c * 0 + d)
+            x_e = int(c * (h-1) + d)
+            cv2.line(lines_img, (x_s, 0), (x_e, h-1), (255, 0, 0), 2)
+
+        # QLabel에 표시
+        h_disp, w_disp = lines_img.shape[:2]
+        bytes_per_line = 3 * w_disp
+        q_img = QImage(lines_img.data, w_disp, h_disp, bytes_per_line, QImage.Format_BGR888)
+        pixmap = QPixmap.fromImage(q_img)
+
+        # label_test_image 크기에 맞춰 스케일
+        scaled_pixmap = pixmap.scaled(
+            self.label_test_image.size(),
+            Qt.KeepAspectRatio,
+            Qt.SmoothTransformation
+        )
+        self.label_test_image.setPixmap(scaled_pixmap)
+
+        self.statusbar.showMessage(f"Final Lines: H={len(result['h_clusters'])}, V={len(result['v_clusters'])}")
 
     def batch_save_results(self):
         """모든 결과 일괄 저장"""
